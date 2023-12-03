@@ -61,6 +61,12 @@ class LiveSetting(models.Model):
         "GRAFANA_CLOUD_NOTIFICATIONS_ENABLED",
         "DANGEROUS_WEBHOOKS_ENABLED",
         "PHONE_PROVIDER",
+        "ASTERISK_ARI_ENDPOINT",
+        "ASTERISK_ARI_APIKEY",
+        "ASTERISK_ARI_CALLER_ID",
+        "ASTERISK_ARI_CONTEXT",
+        "ASTERISK_ARI_EXTENSION",
+        "ASTERISK_ARI_TRUNK_NAME",
         "ZVONOK_API_KEY",
         "ZVONOK_CAMPAIGN_ID",
         "ZVONOK_AUDIO_ID",
@@ -167,6 +173,15 @@ class LiveSetting(models.Model):
         "ZVONOK_POSTBACK_STATUS": "'Postback' status (ct_status) query parameter name to validate a postback request.",
         "ZVONOK_POSTBACK_USER_CHOICE": "'Postback' user choice (ct_user_choice) query parameter name (optional).",
         "ZVONOK_POSTBACK_USER_CHOICE_ACK": "'Postback' user choice (ct_user_choice) query parameter value for acknowledge alert group (optional).",
+        "ASTERISK_ARI_ENDPOINT": (
+            "Asterisk Rest Interface Endpoint. "
+            "Eg. http://asterisk.local:8088/ari"
+        ),
+        "ASTERISK_ARI_APIKEY": "API Key to access ARI (Usually in the form of ari_username:ari_password). ",
+        "ASTERISK_ARI_CALLER_ID": "Caller ID used by Asterisk.",
+        "ASTERISK_ARI_CONTEXT": "Context for Asterisk.",
+        "ASTERISK_ARI_EXTENSION": "Extension used when send alert via Asterisk.",
+        "ASTERISK_ARI_TRUNK_NAME": "Trunk provider name to connect to.",
     }
 
     SECRET_SETTING_NAMES = (
@@ -183,6 +198,12 @@ class LiveSetting(models.Model):
         "TELEGRAM_TOKEN",
         "GRAFANA_CLOUD_ONCALL_TOKEN",
         "ZVONOK_API_KEY",
+        "ASTERISK_ARI_ENDPOINT",
+        "ASTERISK_ARI_APIKEY",
+        "ASTERISK_ARI_CALLER_ID",
+        "ASTERISK_ARI_CONTEXT",
+        "ASTERISK_ARI_EXTENSION",
+        "ASTERISK_ARI_TRUNK_NAME",
     )
 
     def __str__(self):
