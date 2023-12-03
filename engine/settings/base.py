@@ -819,6 +819,7 @@ PYROSCOPE_AUTH_TOKEN = os.getenv("PYROSCOPE_AUTH_TOKEN", "")
 DEFAULT_PHONE_PROVIDER = "twilio"
 PHONE_PROVIDERS = {
     "twilio": "apps.twilioapp.phone_provider.TwilioPhoneProvider",
+    "asterisk": "apps.phone_notifications.asterisk_phone_provider.AsteriskPhoneProvider"
     # "simple": "apps.phone_notifications.simple_phone_provider.SimplePhoneProvider",
 }
 
