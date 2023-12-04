@@ -3,7 +3,7 @@ from django.db import models
 from apps.phone_notifications.phone_provider import ProviderPhoneCall
 
 
-class ZvonokCallStatuses:
+class AsteriskCallStatuses:
     ATTEMPTS_EXC = 10
     COMPL_FINISHED = 20
     COMPL_NOFINISHED = 30
