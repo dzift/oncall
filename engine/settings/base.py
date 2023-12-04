@@ -819,7 +819,7 @@ PYROSCOPE_AUTH_TOKEN = os.getenv("PYROSCOPE_AUTH_TOKEN", "")
 DEFAULT_PHONE_PROVIDER = "twilio"
 PHONE_PROVIDERS = {
     "twilio": "apps.twilioapp.phone_provider.TwilioPhoneProvider",
-    "asterisk": "apps.phone_notifications.asterisk_phone_provider.AsteriskPhoneProvider"
+    "asterisk": "apps.asterisk.phone_provider.AsteriskPhoneProvider"
     # "simple": "apps.phone_notifications.simple_phone_provider.SimplePhoneProvider",
 }
 
@@ -827,6 +827,13 @@ if IS_OPEN_SOURCE:
     PHONE_PROVIDERS["zvonok"] = "apps.zvonok.phone_provider.ZvonokPhoneProvider"
 
 PHONE_PROVIDER = os.environ.get("PHONE_PROVIDER", default=DEFAULT_PHONE_PROVIDER)
+
+ASTERISK_ARI_ENDPOINT = os.getenv("ASTERISK_ARI_ENDPOINT", None)
+ASTERISK_ARI_APIKEY = os.getenv("ASTERISK_ARI_APIKEY", None)
+ASTERISK_ARI_CALLER_ID = os.getenv("ASTERISK_ARI_CALLER_ID", None)
+ASTERISK_ARI_CONTEXT = os.getenv("ASTERISK_ARI_CONTEXT", None)
+ASTERISK_ARI_EXTENSION = os.getenv("ASTERISK_ARI_EXTENSION", None)
+ASTERISK_ARI_TRUNK_NAME = os.getenv("ASTERISK_ARI_TRUNK_NAME", None)
 
 ZVONOK_API_KEY = os.getenv("ZVONOK_API_KEY", None)
 ZVONOK_CAMPAIGN_ID = os.getenv("ZVONOK_CAMPAIGN_ID", None)
