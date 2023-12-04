@@ -57,7 +57,7 @@ class AsteriskPhoneCall(ProviderPhoneCall, models.Model):
     status = models.PositiveSmallIntegerField(
         blank=True,
         null=True,
-        choices=ZvonokCallStatuses.CHOICES,
+        choices=AsteriskCallStatuses.CHOICES,
     )
 
     call_id = models.CharField(
