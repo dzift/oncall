@@ -51,7 +51,7 @@ class AsteriskCallStatuses:
     }
 
 
-class ZvonokPhoneCall(ProviderPhoneCall, models.Model):
+class AsteriskPhoneCall(ProviderPhoneCall, models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     status = models.PositiveSmallIntegerField(
