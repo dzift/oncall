@@ -74,9 +74,9 @@ class AsteriskPhoneProvider(PhoneProvider):
             raise FailedToMakeCall(graceful_msg=f"Failed make call to {number}, empty body")
 
         call_id = body.get("call_id")
-
         if not call_id:
             raise FailedToMakeCall(graceful_msg=self._get_graceful_msg(body, number))
+
         logger.info(f"AsteriskPhoneProvider.make_call: success, call_id {call_id}")
 
     def _connect_to_asterisk(self, number: str, text: str, speaker: Optional[str] = None):
