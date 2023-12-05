@@ -59,25 +59,25 @@ class AsteriskPhoneProvider(PhoneProvider):
 
         try:
             response = self._connect_to_asterisk(number, message)
-            response.raise_for_status()
-            body = response.json()
-            if not body:
-                logger.error("AsteriskPhoneProvider.make_call: failed, empty body")
-                raise FailedToMakeCall(graceful_msg=f"Failed make call to {number}, empty body")
-
-            call_id = body.get("call_id")
-
-            if not call_id:
-                raise FailedToMakeCall(graceful_msg=self._get_graceful_msg(body, number))
-            logger.info(f"AsteriskPhoneProvider.make_call: success, call_id {call_id}")
-
-        except requests.exceptions.HTTPError as http_err:
-            logger.error(f"AsteriskPhoneProvider.make_call: failed {http_err}")
+        except requests.exceptions.HTTPError:
+            logger.exception(f"AsteriskPhoneProvider.make_call: failed")
             raise FailedToMakeCall(graceful_msg=self._get_graceful_msg(body, number))
 
-        except (requests.exceptions.ConnectionError, requests.exceptions.JSONDecodeError, TypeError) as err:
-            logger.error(f"AsteriskPhoneProvider.make_call: failed {err}")
+        except (requests.exceptions.ConnectionError, requests.exceptions.JSONDecodeError, TypeError):
+            logger.exception(f"AsteriskPhoneProvider.make_call: failed")
             raise FailedToMakeCall(graceful_msg=f"Failed make call to {number}")
+
+        response.raise_for_status()
+        body = response.json()
+        if not body:
+            logger.error("AsteriskPhoneProvider.make_call: failed, empty body")
+            raise FailedToMakeCall(graceful_msg=f"Failed make call to {number}, empty body")
+
+        call_id = body.get("call_id")
+
+        if not call_id:
+            raise FailedToMakeCall(graceful_msg=self._get_graceful_msg(body, number))
+        logger.info(f"AsteriskPhoneProvider.make_call: success, call_id {call_id}")
 
     def _connect_to_asterisk(self, number: str, text: str, speaker: Optional[str] = None):
         headers = {
