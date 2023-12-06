@@ -27,19 +27,24 @@ class AsteriskPhoneProvider(PhoneProvider):
 
         try:
             response = self._connect_to_asterisk(number, message)
-
-        except requests.exceptions.HTTPError:
-            logger.exception(f"AsteriskPhoneProvider.make_notification_call: failed")
-            raise FailedToMakeCall(graceful_msg=self._get_graceful_msg(body, number))
-        except (requests.exceptions.ConnectionError, requests.exceptions.JSONDecodeError, TypeError):
+        except requests.exceptions.ConnectionError:
             logger.exception(f"AsteriskPhoneProvider.make_notification_call: failed")
             raise FailedToMakeCall(graceful_msg=f"Failed make notification call to {number}")
 
-        response.raise_for_status()
-        body = response.json()
-        if not body:
-            logger.error("AsteriskPhoneProvider.make_notification_call: failed, empty body")
-            raise FailedToMakeCall(graceful_msg=f"Failed make notification call to {number}, empty body")
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError:
+            logger.exception(f"AsteriskPhoneProvider.make_notification_call: failed")
+            raise FailedToMakeCall(graceful_msg=self._get_graceful_msg(body, number))
+
+        try:
+            body = response.json()
+            if not body:
+                logger.error("AsteriskPhoneProvider.make_notification_call: failed, empty body")
+                raise FailedToMakeCall(graceful_msg=f"Failed make notification call to {number}, empty body")
+        except (requests.exceptions.JSONDecodeError, TypeError):
+            logger.exception(f"AsteriskPhoneProvider.make_notification_call: failed")
+            raise FailedToMakeCall(graceful_msg=f"Failed make notification call to {number}")
 
         call_id = body.get("call_id")
         if not call_id:
@@ -59,19 +64,24 @@ class AsteriskPhoneProvider(PhoneProvider):
 
         try:
             response = self._connect_to_asterisk(number, message)
+        except requests.exceptions.ConnectionError:
+            logger.exception(f"AsteriskPhoneProvider.make_notification_call: failed")
+            raise FailedToMakeCall(graceful_msg=f"Failed make notification call to {number}")
+
+        try:
+            response.raise_for_status()
         except requests.exceptions.HTTPError:
-            logger.exception(f"AsteriskPhoneProvider.make_call: failed")
+            logger.exception(f"AsteriskPhoneProvider.make_notification_call: failed")
             raise FailedToMakeCall(graceful_msg=self._get_graceful_msg(body, number))
 
-        except (requests.exceptions.ConnectionError, requests.exceptions.JSONDecodeError, TypeError):
-            logger.exception(f"AsteriskPhoneProvider.make_call: failed")
-            raise FailedToMakeCall(graceful_msg=f"Failed make call to {number}")
-
-        response.raise_for_status()
-        body = response.json()
-        if not body:
-            logger.error("AsteriskPhoneProvider.make_call: failed, empty body")
-            raise FailedToMakeCall(graceful_msg=f"Failed make call to {number}, empty body")
+        try:
+            body = response.json()
+            if not body:
+                logger.error("AsteriskPhoneProvider.make_notification_call: failed, empty body")
+                raise FailedToMakeCall(graceful_msg=f"Failed make notification call to {number}, empty body")
+        except (requests.exceptions.JSONDecodeError, TypeError):
+            logger.exception(f"AsteriskPhoneProvider.make_notification_call: failed")
+            raise FailedToMakeCall(graceful_msg=f"Failed make notification call to {number}")
 
         call_id = body.get("call_id")
         if not call_id:
@@ -113,19 +123,24 @@ class AsteriskPhoneProvider(PhoneProvider):
 
         try:
             response = self._connect_to_asterisk(number, f"Your verification code is {codewspaces}")
-
-        except requests.exceptions.HTTPError:
-            logger.exception("AsteriskPhoneProvider.make_verification_call: failed")
-            raise FailedToStartVerification(graceful_msg=self._get_graceful_msg(body, number))
-        except (requests.exceptions.ConnectionError, requests.exceptions.JSONDecodeError, TypeError):
+        except requests.exceptions.ConnectionError:
             logger.exception(f"AsteriskPhoneProvider.make_verification_call: failed")
             raise FailedToStartVerification(graceful_msg=f"Failed make verification call to {number}")
 
-        response.raise_for_status()
-        body = response.json()
-        if not body:
-            logger.error("AsteriskPhoneProvider.make_verification_call: failed, empty body")
-            raise FailedToMakeCall(graceful_msg=f"Failed make verification call to {number}, empty body")
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError:
+            logger.exception("AsteriskPhoneProvider.make_verification_call: failed")
+            raise FailedToStartVerification(graceful_msg=self._get_graceful_msg(body, number))
+
+        try:
+            body = response.json()
+            if not body:
+                logger.error("AsteriskPhoneProvider.make_verification_call: failed, empty body")
+                raise FailedToMakeCall(graceful_msg=f"Failed make verification call to {number}, empty body")
+        except (requests.exceptions.JSONDecodeError, TypeError):
+            logger.exception(f"AsteriskPhoneProvider.make_verification_call: failed")
+            raise FailedToStartVerification(graceful_msg=f"Failed make verification call to {number}")
 
         call_id = body.get("call_id")
         if not call_id:
